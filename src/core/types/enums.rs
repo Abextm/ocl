@@ -196,10 +196,7 @@ impl PlatformInfoResult {
 
         match result {
             Ok(result) => { 
-                let string = match String::from_utf8(result) {
-                    Ok(s) => s,
-                    Err(err) => return PlatformInfoResult::Error(Box::new(OclError::from(err))),
-                };
+                let string = String::from_utf8_lossy(&result[0..result.len()-1]).into_owned();
 
                 match request {
                     PlatformInfo::Profile => PlatformInfoResult::Profile(string),
